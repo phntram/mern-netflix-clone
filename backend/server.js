@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 // routes
 const authRoutes = require("./routes/auth.route");
 const movieRoutes = require("./routes/movie.route");
+const tvRoutes = require("./routes/tv.route.js");
 
 const ENV_VARS = require('./config/envVars');
 const connectDB = require('./config/db');
@@ -20,6 +21,7 @@ app.use(express.json());
 // routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", movieRoutes);
+app.use('/api/v1/tv', tvRoutes);
 
 
 app.get("/", (req, res) => {

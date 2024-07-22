@@ -1,32 +1,29 @@
-// just get one trending movie
-
 const fetchFromTMDB = require("../services/tmdb.service");
 
-const getTrendingMovie = async (req, res) => {
+const getTrendingTv = async (req, res) => {
     try {
-        const url = 'https://api.themoviedb.org/3/trending/movie/day?language=en-US';
+        const url = 'https://api.themoviedb.org/3/trending/tv/day?language=en-US';
         const data = await fetchFromTMDB(url);
-        const randomMovie = data.results[Math.floor(Math.random() * data.results?.length)];
+        const randomTVShow = data.results[Math.floor(Math.random() * data.results?.length)];
 
         res.status(200).json({
             success: true,
             data: {
-                randomMovie
+                randomTVShow
             }
         });
     } catch (error) {
-        console.log(`Error in get trending movie controller ${error.message}`);
+        console.log(`Error in get trending tv show controller ${error.message}`);
         res.status(500).json({
             success: false,
             message: "Interal Server Error"
         });
     }
 };
-
-const getMovieTrailers = async (req, res) => {
+const getTvTrailers = async (req, res) => {
     const { id } = req.params;
     try {
-        const url = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
+        const url = `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`;
         const response = await fetchFromTMDB(url);
         res.status(200).json({
             success: true,
@@ -37,18 +34,17 @@ const getMovieTrailers = async (req, res) => {
         if (error.message.includes("404")) {
             return res.status(404).send(null);
         }
-        console.log(`Error in get movie trailers controller ${error.message}`);
+        console.log(`Error in get tv show trailers controller ${error.message}`);
         res.status(500).json({
             success: false,
             message: "Interal Server Error"
         });
     }
 };
-
-const getMovieDetails = async (req, res) => {
+const getTvDetails = async (req, res) => {
     const { id } = req.params;
     try {
-        const url = `https://api.themoviedb.org/3/movie/${id}?language=en-US`;
+        const url = `https://api.themoviedb.org/3/tv/${id}?language=en-US`;
         const response = await fetchFromTMDB(url);
 
         res.status(200).json({
@@ -59,18 +55,17 @@ const getMovieDetails = async (req, res) => {
         if (error.message.includes("404")) {
             return res.status(404).send(null);
         }
-        console.log(`Error in get movie details controller ${error.message}`);
+        console.log(`Error in get tv show details controller ${error.message}`);
         res.status(500).json({
             success: false,
             message: "Interal Server Error"
         });
     }
 };
-
-const getSimilarMovies = async (req, res) => {
+const getSimilarTvs = async (req, res) => {
     const { id } = req.params;
     try {
-        const url = `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`;
+        const url = `https://api.themoviedb.org/3/tv/${id}/similar?language=en-US&page=1`;
         const response = await fetchFromTMDB(url);
 
         res.status(200).json({
@@ -78,18 +73,17 @@ const getSimilarMovies = async (req, res) => {
             data: response.results
         });
     } catch (error) {
-        console.log(`Error in get similar movies controller ${error.message}`);
+        console.log(`Error in get similar tv shows controller ${error.message}`);
         res.status(500).json({
             success: false,
             message: "Interal Server Error"
         });
     }
 };
-
-const getMoviesByCategory = async (req, res) => {
-    const { category } = req.params; //popular, top_rated, now_playing, upcoming
+const getTvByCategory = async (req, res) => {
+    const { category } = req.params; //popular, top_rated, airing_today, on_the_air
     try {
-        const url = `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`;
+        const url = `https://api.themoviedb.org/3/tv/${category}?language=en-US&page=1`;
         const response = await fetchFromTMDB(url);
 
         res.status(200).json({
@@ -97,7 +91,7 @@ const getMoviesByCategory = async (req, res) => {
             data: response.results
         });
     } catch (error) {
-        console.log(`Error in get movie by category controller ${error.message}`);
+        console.log(`Error in get tv show by category controller ${error.message}`);
         res.status(500).json({
             success: false,
             message: "Interal Server Error"
@@ -105,4 +99,4 @@ const getMoviesByCategory = async (req, res) => {
     }
 };
 
-module.exports = { getTrendingMovie, getMovieTrailers, getMovieDetails, getSimilarMovies, getMoviesByCategory };
+module.exports = { getTrendingTv, getTvTrailers, getTvDetails, getSimilarTvs, getTvByCategory };
