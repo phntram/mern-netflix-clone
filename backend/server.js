@@ -1,10 +1,14 @@
 const express = require('express'); //CommonJS
+const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 
 // routes
 const authRoutes = require("./routes/auth.route");
 const movieRoutes = require("./routes/movie.route");
 const tvRoutes = require("./routes/tv.route.js");
+
+// middleware
+const protectRoute = require("./middleware/protectRoute.js");
 
 const ENV_VARS = require('./config/envVars');
 const connectDB = require('./config/db');
@@ -16,12 +20,13 @@ const app = express();
 const PORT = ENV_VARS.PORT;
 
 app.use(express.json());
+app.use(cookieParser());
 
 
 // routes
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/movie", movieRoutes);
-app.use('/api/v1/tv', tvRoutes);
+app.use("/api/v1/movie", protectRoute, movieRoutes);
+app.use('/api/v1/tv', protectRoute, tvRoutes);
 
 
 app.get("/", (req, res) => {
