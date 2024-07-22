@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const authRoutes = require("./routes/auth.route");
 const movieRoutes = require("./routes/movie.route");
 const tvRoutes = require("./routes/tv.route.js");
+const searchRoutes = require("./routes/search.route.js");
 
 // middleware
 const protectRoute = require("./middleware/protectRoute.js");
@@ -27,6 +28,7 @@ app.use(cookieParser());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", protectRoute, movieRoutes);
 app.use('/api/v1/tv', protectRoute, tvRoutes);
+app.use('/api/v1/search', protectRoute, searchRoutes);
 
 
 app.get("/", (req, res) => {
