@@ -1,13 +1,12 @@
 const User = require("../models/user.model");
-const bcrypt = require("bcryptjs");
+const bcryptjs = require("bcryptjs");
 const generateTokenAndSetCookie = require("../utils/generateToken");
-const { use } = require("../routes/auth.route");
 
 const signup = async (req, res) => {
     try {
         const { email, password, username } = req.body;
 
-        if (!email || !password | username) {
+        if (!email || !password || !username) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
@@ -28,11 +27,9 @@ const signup = async (req, res) => {
             });
         }
 
-        if (password.lenght < 6) {
-            return res.status(400).json({
-                success: false,
-                message: "Password must be at least 6 characters"
-            });
+        if (password.length < 6) {
+            console.log(password.length);
+            return res.status(400).json({ success: false, message: "Password must be at least 6 characters" });
         }
 
         const existingUserByEmail = await User.findOne({ email: email });
@@ -71,7 +68,7 @@ const signup = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            data: {
+            user: {
                 ...newUser._doc,
                 password: ""
             }
@@ -81,7 +78,7 @@ const signup = async (req, res) => {
         console.log(`Error in signup controller ${error.message}`);
         res.status(500).json({
             success: false,
-            message: "Interal server error"
+            message: "Internal server error"
         });
     }
 };
@@ -104,19 +101,16 @@ const login = async (req, res) => {
             });
         }
 
-        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        const isPasswordCorrect = await bcryptjs.compare(password, user.password);
         if (!isPasswordCorrect) {
-            return res.stauts(400).json({
-                success: false,
-                message: "Invalid credentials"
-            });
+            return res.status(400).json({ success: false, message: "Invalid credentials" });
         }
 
         generateTokenAndSetCookie(user._id, res);
 
         res.status(200).json({
             success: true,
-            data: {
+            user: {
                 ...user._doc,
                 password: ""
             }
@@ -125,7 +119,7 @@ const login = async (req, res) => {
         console.log(`Error in login controller ${error.message}`);
         res.status(500).json({
             success: false,
-            message: "Interal server error"
+            message: "Internal server error"
         });
     }
 };
@@ -142,9 +136,24 @@ const logout = (req, res) => {
         console.log(`Error in logout controller ${error.message}`);
         res.status(500).json({
             success: false,
-            message: "Interal server error"
+            message: "Internal server error"
         });
     }
 };
 
-module.exports = { signup, login, logout };
+const authCheck = async (req, res) => {
+    try {
+        res.status(200).json({
+            success: true,
+            user: req.user
+        });
+    } catch (error) {
+        console.log("Error in authCheck controller", error.message);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+
+module.exports = { signup, login, logout, authCheck };

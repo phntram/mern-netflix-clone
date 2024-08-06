@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../../store/authUser";
 
 const SignupPage = () => {
-    const [email, setEmail] = useState("");
+    const { searchParams } = new URL(document.location);
+    const emailVlaue = searchParams.get("email");
+    const [email, setEmail] = useState(emailVlaue || "");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const { signup } = useAuthStore();
+
     const handleSignUp = (e) => {
         e.preventDefault();
-        console.log(email, username, password);
+        // console.log(password.length);
+        signup({ email, username, password });
     };
 
     return (
