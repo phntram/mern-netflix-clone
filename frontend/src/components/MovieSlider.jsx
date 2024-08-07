@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-key */
 import { useEffect, useRef, useState } from "react";
-import { useContentStore } from "../../store/content";
+import { useContentStore } from "../store/content";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { SMALL_IMG_BASE_URL } from "../../utils/contants";
+import { SMALL_IMG_BASE_URL } from "../utils/contants";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 

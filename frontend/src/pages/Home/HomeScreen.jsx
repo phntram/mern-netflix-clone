@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Navbar } from '../components/Navbar';
+import { Navbar } from '../../components/Navbar.jsx';
 import { Info, Play } from 'lucide-react';
 import { useGetTrendingContent } from '../../hooks/useGetTrendingContent';
 import { MOVIE_CATEGORIES, ORIGIN_IMG_BASE_URL, TV_CATEGORIES } from '../../utils/contants.js';
 import { useContentStore } from '../../store/content.js';
-import { MovieSlider } from '../components/MovieSlider.jsx';
+import { MovieSlider } from '../../components/MovieSlider.jsx';
 import { useState } from 'react';
 
 export const HomeScreen = () => {

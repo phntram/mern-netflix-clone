@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import HomePage from "./pages/Home/HomePage";
 import LoginPage from "./pages/Login/LoginPage";
 import SignupPage from "./pages/SignUp/SignupPage";
-import { Footer } from './pages/components/Footer';
+import { Footer } from './components/Footer.jsx';
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/authUser';
 import { useEffect } from 'react';
