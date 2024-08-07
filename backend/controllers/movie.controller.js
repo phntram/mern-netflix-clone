@@ -8,12 +8,7 @@ const getTrendingMovie = async (req, res) => {
         const data = await fetchFromTMDB(url);
         const randomMovie = data.results[Math.floor(Math.random() * data.results?.length)];
 
-        res.status(200).json({
-            success: true,
-            data: {
-                randomMovie
-            }
-        });
+        res.json({ success: true, content: randomMovie });
     } catch (error) {
         console.log(`Error in get trending movie controller ${error.message}`);
         res.status(500).json({
@@ -28,10 +23,7 @@ const getMovieTrailers = async (req, res) => {
     try {
         const url = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
         const response = await fetchFromTMDB(url);
-        res.status(200).json({
-            success: true,
-            data: response.results
-        });
+        res.json({ success: true, trailers: response.results });
 
     } catch (error) {
         if (error.message.includes("404")) {
@@ -51,10 +43,7 @@ const getMovieDetails = async (req, res) => {
         const url = `https://api.themoviedb.org/3/movie/${id}?language=en-US`;
         const response = await fetchFromTMDB(url);
 
-        res.status(200).json({
-            success: true,
-            data: response
-        });
+        res.status(200).json({ success: true, content: response });
     } catch (error) {
         if (error.message.includes("404")) {
             return res.status(404).send(null);
@@ -73,10 +62,7 @@ const getSimilarMovies = async (req, res) => {
         const url = `https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1`;
         const response = await fetchFromTMDB(url);
 
-        res.status(200).json({
-            success: true,
-            data: response.results
-        });
+        res.status(200).json({ success: true, similar: response.results });
     } catch (error) {
         console.log(`Error in get similar movies controller ${error.message}`);
         res.status(500).json({
@@ -92,10 +78,7 @@ const getMoviesByCategory = async (req, res) => {
         const url = `https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`;
         const response = await fetchFromTMDB(url);
 
-        res.status(200).json({
-            success: true,
-            data: response.results
-        });
+        res.status(200).json({ success: true, content: response.results });
     } catch (error) {
         console.log(`Error in get movie by category controller ${error.message}`);
         res.status(500).json({
