@@ -13,7 +13,6 @@ const SignupPage = () => {
 
     const handleSignUp = (e) => {
         e.preventDefault();
-        // console.log(password.length);
         signup({ email, username, password });
     };
 

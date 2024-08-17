@@ -28,7 +28,6 @@ const signup = async (req, res) => {
         }
 
         if (password.length < 6) {
-            console.log(password.length);
             return res.status(400).json({ success: false, message: "Password must be at least 6 characters" });
         }
 
