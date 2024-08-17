@@ -18,27 +18,18 @@ To get a local copy up and running, follow these simple steps:
 Clone the repository:
 git@github.com:phntram/mern-netflix-clone.git
 
-### Front-end
+### Setup .env file
 
-1. Navigate to the front-end directory:
-   cd mern-netflix-clone/frontend
+PORT=5000
+MONGO_URI=your_mongo_uri
+NODE_ENV=development
+JWT_SECRET=your_jwt_secre
+TMDB_API_KEY=your_tmdb_api_key
 
-2. Install dependencies:
-   npm install
+### Run this app locally
 
-3. Start the front-end application:
-   npm run dev
-
-### Backend
-
-1. Navigate to the backend diractory:
-   cd ..
-
-2. Install dependencies:
-   npm install
-
-3. Start the back-end server
-   npm run dev
+-   npm run build
+-   npm run start
 
 ## Usage
 

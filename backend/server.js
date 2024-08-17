@@ -1,6 +1,7 @@
 const express = require('express'); //CommonJS
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
+const path = require("path");
 
 // routes
 const authRoutes = require("./routes/auth.route");
@@ -19,8 +20,9 @@ dotenv.config();
 const app = express();
 
 const PORT = ENV_VARS.PORT;
+const _dirname = path.resolve();
 
-app.use(express.json());
+app.use(express.json()); //will allow us to parse req.body
 app.use(cookieParser());
 
 
@@ -30,6 +32,14 @@ app.use("/api/v1/movie", protectRoute, movieRoutes);
 app.use('/api/v1/tv', protectRoute, tvRoutes);
 app.use('/api/v1/search', protectRoute, searchRoutes);
 
+
+if (ENV_VARS.NODE_ENV === "production") {
+    app.use(express.static(path.join(_dirname, "/frontend/dist")));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
+    });
+}
 
 app.get("/", (req, res) => {
     res.send("Server is ready");
